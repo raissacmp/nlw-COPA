@@ -17,6 +17,24 @@ async function bootstrap() {
     origin: true, //permite que todas as aplicações possam acessar, em prod o ideal é passar o dominio 'www...'
   });
 
+  fastify.get("/pools/count", async () => {
+    const count = await prisma.pool.count();
+
+    return { count };
+  });
+
+  fastify.get("/users/count", async () => {
+    const count = await prisma.user.count();
+
+    return { count };
+  });
+
+  fastify.get("/guesses/count", async () => {
+    const count = await prisma.guess.count();
+
+    return { count };
+  });
+
   fastify.post("/pools", async (request, reply) => {
     const createPoolBody = z.object({
       title: z.string(),
