@@ -29,7 +29,7 @@ export function AuthContextProvider({ children }: AuthProviderProps) {
       value={{
         signIn,
         user: {
-          name: "Raissa",
+          name: "Raissa Campos",
           avatarUrl: "https://github.com/raissacmp.png",
         },
       }}
