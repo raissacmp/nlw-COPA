@@ -1,4 +1,9 @@
-import { createContext, ReactNode } from "react";
+import { createContext, ReactNode, useEffect, useState } from "react";
+import * as Google from "expo-auth-session/providers/google";
+import * as AuthSession from "expo-auth-session";
+import * as WebBrowser from "expo-web-browser";
+
+WebBrowser.maybeCompleteAuthSession(); //redirecionamento
 
 interface UserProps {
   name: string;
@@ -7,6 +12,7 @@ interface UserProps {
 
 export interface AuthContextDataProps {
   user: UserProps;
+  isUserLoading: boolean;
   signIn: () => Promise<void>;
 }
 
@@ -17,21 +23,44 @@ interface AuthProviderProps {
 export const AuthContext = createContext({} as AuthContextDataProps);
 
 export function AuthContextProvider({ children }: AuthProviderProps) {
+  const [user, setUser] = useState<UserProps>({} as UserProps);
+  const [isUserLoading, setIsUserLoading] = useState(false);
+
+  const [request, response, promptAsync] = Google.useAuthRequest({
+    clientId:
+      "403925346282-jm576cf341dulsctjeui0kn5nt6p3o99.apps.googleusercontent.com",
+    redirectUri: AuthSession.makeRedirectUri({ useProxy: true }), //pegar o link do redirect que colocamos no site p criar o projeto
+    scopes: ["profile", "email"],
+  });
+
   async function signIn() {
-    console.log(
-      "🚀 ~ file: AuthContext.tsx ~ line 23 ~ signIn ~ entrou",
-      "Vamos logar"
-    );
+    try {
+      setIsUserLoading(true);
+      await promptAsync(); //essa função daa start no fluxo de autenticaçãoo
+    } catch (error) {
+      console.log(error);
+      throw error;
+    } finally {
+      setIsUserLoading(false);
+    }
   }
+
+  async function signInWithGoogle(access_token: string) {
+    console.log("token ==== ", access_token);
+  }
+
+  useEffect(() => {
+    if (response?.type === "success" && response.authentication?.accessToken) {
+      signInWithGoogle(response.authentication.accessToken);
+    }
+  }, [response]);
 
   return (
     <AuthContext.Provider
       value={{
         signIn,
-        user: {
-          name: "Raissa Campos",
-          avatarUrl: "https://github.com/raissacmp.png",
-        },
+        isUserLoading,
+        user,
       }}
     >
       {children}

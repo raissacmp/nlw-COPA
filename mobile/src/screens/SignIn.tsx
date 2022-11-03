@@ -6,7 +6,6 @@ import { Button } from "../components/Button";
 
 export function SignIn() {
   const { signIn, user } = useAuth();
-  console.log("🚀 ~ file: SignIn.tsx ~ line 9 ~ SignIn ~ dados usuarios", user);
 
   return (
     <Center flex={1} bgColor="gray.900" p={7}>
