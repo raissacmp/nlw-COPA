@@ -1,5 +1,6 @@
 import Fastify from "fastify";
 import cors from "@fastify/cors";
+import jwt from "@fastify/jwt";
 
 import { poolRoutes } from "./routes/pool";
 import { authRoutes } from "./routes/auth";
@@ -14,6 +15,12 @@ async function bootstrap() {
 
   await fastify.register(cors, {
     origin: true, //permite que todas as aplicações possam acessar, em prod o ideal é passar o dominio 'www...'
+  });
+
+  // Em produção isso precisa ser uma viarável de ambiente
+
+  await fastify.register(jwt, {
+    secret: "nlwcopa",
   });
 
   await fastify.register(poolRoutes);

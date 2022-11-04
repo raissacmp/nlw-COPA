@@ -34,6 +34,37 @@ export async function authRoutes(fastify: FastifyInstance) {
     });
 
     const userInfo = userInfoSchema.parse(userData);
-    return { userInfo };
+
+    let user = await prisma.user.findUnique({
+      where: {
+        googleId: userInfo.id,
+      },
+    });
+
+    //criando um novo usuário
+
+    if (!user) {
+      user = await prisma.user.create({
+        data: {
+          googleId: userInfo.id,
+          name: userInfo.name,
+          email: userInfo.email,
+          avatarUrl: userInfo.picture,
+        },
+      });
+    }
+
+    const token = fastify.jwt.sign(
+      {
+        name: user.name,
+        avatarUrl: user.avatarUrl,
+      },
+      {
+        sub: user.id,
+        expiresIn: "7 days",
+      }
+    );
+
+    return { token };
   });
 }
