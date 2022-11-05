@@ -41,7 +41,7 @@ export function Guesses({ poolId, code }: Props) {
     try {
       if (!firstTeamPoints.trim() || !secondTeamPoints.trim()) {
         return toast.show({
-          title: "Informe o placar para palpitar",
+          title: "Informe o placar do palpite 🥺",
           placement: "top",
           bgColor: "red.500",
         });

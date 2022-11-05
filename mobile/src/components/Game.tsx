@@ -38,7 +38,7 @@ export function Game({
 }: Props) {
   const { colors, sizes } = useTheme();
 
-  const when = dayjs(data.date).locale(ptBR).format("DD [de] MMMM [de] YYYY");
+  const when = dayjs(data.date).locale(ptBR).format("DD [de] MMMM [de] YYYY"); //formatar as datas dos jogos [] para considerar textos
 
   return (
     <VStack
