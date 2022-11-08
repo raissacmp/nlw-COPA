@@ -14,5 +14,7 @@ In the **WEB** directory you can run: (*if necessary remove de host: "0.0.0"*)
 1. `npm i`
 2. `npm run dev`
 
-![](src/assets/nlw-web.png)
+![](web/src/assets/nlw-web.png)
+
+
 
