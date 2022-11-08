@@ -16,5 +16,11 @@ In the **WEB** directory you can run: (*if necessary remove de host: "0.0.0"*)
 
 ![](web/src/assets/nlw-web.png)
 
+# Mobile
+
+![](mobile/src/assets/nlw-mobile.gif)
+
+
+
 
 
